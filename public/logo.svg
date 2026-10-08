@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 116" fill="none" class="brand-logo" role="img" aria-label="Christ Embassy Abuja Zone 1">
+  <defs>
+    <filter id="logoShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#logoShadow)">
+    <!-- Back arc of planetary orbital ring -->
+    <path d="M 20 62 C 16 46, 68 25, 102 38" stroke="#FAF2E2" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.75" />
+    
+    <!-- Heart outline -->
+    <path d="M 60 94 C 32 74, 18 56, 18 38 C 18 23, 28 13, 42 13 C 50 13, 56 17, 60 23 C 64 17, 70 13, 78 13 C 92 13, 102 23, 102 38 C 102 56, 88 74, 60 94 Z" 
+          fill="none" stroke="#FAF2E2" stroke-width="4.2" stroke-linejoin="round"/>
+    
+    <!-- Globe lines clipped inside the heart -->
+    <clipPath id="heartGlobeClip">
+      <path d="M 60 94 C 32 74, 18 56, 18 38 C 18 23, 28 13, 42 13 C 50 13, 56 17, 60 23 C 64 17, 70 13, 78 13 C 92 13, 102 23, 102 38 C 102 56, 88 74, 60 94 Z"/>
+    </clipPath>
+    
+    <g clip-path="url(#heartGlobeClip)">
+      <!-- Longitude lines -->
+      <path d="M 60 12 L 60 95" stroke="#FAF2E2" stroke-width="2.5" />
+      <path d="M 60 12 C 40 34, 40 70, 60 95" stroke="#FAF2E2" stroke-width="2.2" fill="none" />
+      <path d="M 60 12 C 80 34, 80 70, 60 95" stroke="#FAF2E2" stroke-width="2.2" fill="none" />
+      <path d="M 60 12 C 24 38, 24 66, 60 95" stroke="#FAF2E2" stroke-width="2.2" fill="none" />
+      <path d="M 60 12 C 96 38, 96 66, 60 95" stroke="#FAF2E2" stroke-width="2.2" fill="none" />
+
+      <!-- Latitude lines -->
+      <path d="M 8 45 Q 60 54 112 45" stroke="#FAF2E2" stroke-width="2" fill="none" />
+      <path d="M 8 62 Q 60 70 112 62" stroke="#FAF2E2" stroke-width="2" fill="none" />
+      <path d="M 18 28 Q 60 35 102 28" stroke="#FAF2E2" stroke-width="2" fill="none" />
+      <path d="M 22 78 Q 60 84 98 78" stroke="#FAF2E2" stroke-width="2" fill="none" />
+
+      <!-- Map continent textures -->
+      <path d="M 30 30 Q 38 28 44 34 Q 42 44 33 40 Z" fill="#FAF2E2" opacity="0.92" />
+      <path d="M 74 28 Q 84 32 87 42 Q 77 46 72 36 Z" fill="#FAF2E2" opacity="0.92" />
+      <path d="M 45 50 Q 55 48 57 60 Q 48 64 44 56 Z" fill="#FAF2E2" opacity="0.92" />
+      <path d="M 65 50 Q 77 54 73 66 Q 63 64 65 54 Z" fill="#FAF2E2" opacity="0.92" />
+      <path d="M 50 72 Q 60 68 67 74 Q 60 85 52 80 Z" fill="#FAF2E2" opacity="0.92" />
+    </g>
+
+    <!-- Front arc of orbital ring -->
+    <path d="M 12 63 C 10 77, 50 88, 105 58 C 114 54, 116 49, 110 45" stroke="#FAF2E2" stroke-width="4.8" stroke-linecap="round" fill="none" />
+    
+    <!-- Typography: EXACTLY 'CHRIST EMBASSY' and 'ABUJA ZONE 1' in Cream -->
+    <text x="132" y="47" font-family="'Inter', system-ui, -apple-system, sans-serif" font-weight="700" font-size="32" letter-spacing="1.2" fill="#FAF2E2">CHRIST EMBASSY</text>
+    <text x="132" y="90" font-family="'Inter', system-ui, -apple-system, sans-serif" font-weight="900" font-size="44" letter-spacing="1.8" fill="#FAF2E2">ABUJA ZONE 1</text>
+  </g>
+</svg>

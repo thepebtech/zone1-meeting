@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "node -e 'console.log(\"Build complete\")'"
+    "build": "mkdir -p dist public && cp index.html logo.svg green-bg.jpg firebase-applet-config.json dist/ && cp index.html logo.svg green-bg.jpg firebase-applet-config.json public/"
   },
   "dependencies": {
     "express": "^4.19.2"
