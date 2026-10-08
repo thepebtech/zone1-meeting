@@ -1,0 +1,8 @@
+{
+  "name": "Abuja Zone 1 Partner Meeting",
+  "description": "Abuja Zone 1 Partner Meeting portal",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ],
+  "permissions": []
+}

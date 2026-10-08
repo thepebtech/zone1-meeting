@@ -5,41 +5,1153 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Abuja Zone 1 Partner Meeting</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500&display=swap">
+<meta name="description" content="Abuja Zone 1 Partner Meeting portal">
+<meta property="og:title" content="Abuja Zone 1 Partner Meeting">
+<meta property="og:description" content="Abuja Zone 1 Partner Meeting portal">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
 <style>
 :root{
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#EEF2F1; --ink:#14302E; --muted:#4F6663; --btn:#14302E; --btn-ink:#F3F7F6; --ring:#2F8F83;
+  --bg:#071311; --ink:#FDF7EC; --muted:#CADCD7; --mustard:#F3BE48; --mustard-hover:#FFCA58; --ring:#F3BE48;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--bg:#0F1D1C;--ink:#E6EFEE;--muted:#9DB3B0;--btn:#E6EFEE;--btn-ink:#0F1D1C;--ring:#5CC7B8;}
-}
-:root[data-theme="dark"]{--bg:#0F1D1C;--ink:#E6EFEE;--muted:#9DB3B0;--btn:#E6EFEE;--btn-ink:#0F1D1C;--ring:#5CC7B8;}
 *,*::before,*::after{box-sizing:inherit}
-html,body{margin:0;width:100%;max-width:100%;overflow:hidden}
-html{height:100%}
-body{height:100vh;height:100dvh}
-body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}
-main{width:100%;max-width:640px;min-width:0;text-align:left}
-h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(1.6rem,6vw,3.2rem);line-height:1.1;margin:0 0 12px;overflow-wrap:break-word;letter-spacing:-0.02em}
-p{font-size:1rem;line-height:1.5;color:var(--muted);margin:0 0 24px;max-width:46ch}
-a.join{display:flex;align-items:center;justify-content:center;height:clamp(110px,22vh,200px);width:100%;background:var(--btn);color:var(--btn-ink);text-decoration:none;font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(1.5rem,5.5vw,2.6rem);text-align:center;padding:0 16px;border-radius:20px;transition:transform .15s ease}
-a.join:hover{transform:scale(1.015)}
-a.join:active{transform:scale(.99)}
-a.join:focus-visible{outline:4px solid var(--ring);outline-offset:4px}
-small{display:block;margin-top:18px;color:var(--muted);font-size:.9rem}
-@media (prefers-reduced-motion:reduce){a.join{transition:none}}
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden}
+html{min-height:100%}
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  background-color:#071311;
+  color:var(--ink);
+  font-family:Inter,system-ui,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 16px;
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:url('green-bg.jpg') center center / cover no-repeat;
+  filter:brightness(0.34) contrast(1.18);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* ==================== VIEW SWITCHING ==================== */
+.view-container{
+  width:100%;
+  display:none;
+  animation:fadeIn 0.35s ease forwards;
+}
+.view-container.active{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(8px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ==================== WELCOME VIEW ==================== */
+#welcome-view{
+  max-width:640px;
+  width:100%;
+}
+.welcome-logo-wrapper{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:20px;
+}
+.welcome-brand-logo{
+  width:100%;
+  max-width:clamp(220px, 52vw, 320px);
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 4px 14px rgba(0, 0, 0, 0.8));
+  transition:transform .2s ease;
+}
+.welcome-brand-logo:hover{
+  transform:scale(1.02);
+}
+.welcome-card{
+  width:100%;
+  max-width:640px;
+  min-width:0;
+  text-align:left;
+  position:relative;
+  background:rgba(12, 28, 25, 0.45);
+  backdrop-filter:blur(24px) saturate(140%);
+  -webkit-backdrop-filter:blur(24px) saturate(140%);
+  border:1px solid rgba(255, 255, 255, 0.15);
+  border-top:1px solid rgba(255, 255, 255, 0.28);
+  border-radius:28px;
+  padding:clamp(32px, 6.5vw, 48px) clamp(24px, 5.5vw, 44px);
+  box-shadow:0 24px 50px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+h1{
+  font-family:Fraunces,Georgia,serif;
+  margin:0 0 16px;
+  overflow-wrap:break-word;
+  color:#FFFFFF;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.partner-title{
+  display:block;
+  font-weight:700;
+  font-size:clamp(1.75rem, 5.8vw, 3.1rem);
+  line-height:1.15;
+  letter-spacing:-0.02em;
+  color:#FDF7EC;
+  text-shadow:0 2px 14px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+.welcome-subtitle{
+  display:block;
+  font-weight:600;
+  font-size:clamp(1.4rem, 4.6vw, 2.45rem);
+  line-height:1.2;
+  letter-spacing:-0.015em;
+  color:#F3EBD9;
+  text-shadow:0 2px 12px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+p.welcome-desc{
+  font-size:1.05rem;
+  line-height:1.55;
+  color:#EFE8D6;
+  margin:0 0 28px;
+  max-width:46ch;
+  text-shadow:0 2px 8px rgba(0, 0, 0, 0.75);
+}
+a.join{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:clamp(105px, 20vh, 180px);
+  width:100%;
+  background:linear-gradient(135deg, rgba(235, 178, 55, 0.26) 0%, rgba(185, 128, 22, 0.14) 100%);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(245, 195, 78, 0.45);
+  border-top:1px solid rgba(255, 228, 140, 0.75);
+  box-shadow:0 14px 40px rgba(0, 0, 0, 0.5), 0 0 26px rgba(235, 178, 55, 0.22), inset 0 1px 2px rgba(255, 230, 150, 0.4);
+  color:#F3BE48;
+  text-decoration:none;
+  font-family:Fraunces,Georgia,serif;
+  font-weight:700;
+  font-size:clamp(1.45rem, 5.2vw, 2.45rem);
+  text-align:center;
+  text-shadow:0 2px 12px rgba(0, 0, 0, 0.85);
+  padding:0 20px;
+  border-radius:22px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .2s cubic-bezier(0.2, 0.8, 0.2, 1), background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+a.join::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 0%, rgba(255, 235, 160, 0.4), transparent 70%);
+  opacity:0.4;
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+a.join:hover{
+  transform:translateY(-2px) scale(1.015);
+  background:linear-gradient(135deg, rgba(235, 178, 55, 0.38) 0%, rgba(185, 128, 22, 0.22) 100%);
+  border-color:rgba(255, 228, 140, 0.8);
+  box-shadow:0 18px 48px rgba(0, 0, 0, 0.6), 0 0 36px rgba(235, 178, 55, 0.38), inset 0 1px 2px rgba(255, 240, 180, 0.6);
+}
+a.join:hover::after{opacity:0.75;}
+a.join:active{transform:scale(.99);}
+a.join:focus-visible{outline:4px solid #F3BE48; outline-offset:4px;}
+
+/* ==================== STREAM VIEW ==================== */
+#stream-view{
+  max-width:720px;
+  width:100%;
+}
+.stream-header{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 0 16px;
+}
+.stream-brand{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  cursor:pointer;
+}
+.stream-brand img{
+  height:36px;
+  width:auto;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.7));
+}
+.sign-out-btn{
+  background:rgba(255, 255, 255, 0.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255, 255, 255, 0.16);
+  color:#CADCD7;
+  text-decoration:none;
+  font-size:0.95rem;
+  font-weight:500;
+  padding:8px 18px;
+  border-radius:999px;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.sign-out-btn:hover{
+  background:rgba(255, 255, 255, 0.16);
+  color:#FFFFFF;
+  border-color:rgba(255, 255, 255, 0.3);
+}
+
+/* Video Player */
+.player-card{
+  width:100%;
+  background:#000000;
+  border-radius:24px;
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:0 20px 48px rgba(0, 0, 0, 0.7);
+  aspect-ratio:16 / 9;
+  margin-bottom:22px;
+}
+.stream-video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  background:#000000;
+}
+
+/* Stream Offline Overlay */
+.stream-overlay{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, rgba(14, 34, 30, 0.94) 0%, rgba(6, 17, 15, 0.98) 100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  text-align:center;
+  z-index:5;
+}
+.radar-pulse{
+  position:relative;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:rgba(243, 190, 72, 0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:16px;
+  border:1px solid rgba(243, 190, 72, 0.4);
+}
+.radar-pulse::before{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border:2px solid rgba(243, 190, 72, 0.35);
+  animation:pulseRadar 2s infinite ease-out;
+}
+.radar-pulse svg{
+  width:26px;
+  height:26px;
+  fill:#F3BE48;
+}
+@keyframes pulseRadar{
+  0%{transform:scale(0.85); opacity:1;}
+  100%{transform:scale(1.4); opacity:0;}
+}
+.overlay-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(243, 190, 72, 0.16);
+  border:1px solid rgba(243, 190, 72, 0.38);
+  color:#F3BE48;
+  font-size:0.75rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:10px;
+}
+.overlay-title{
+  font-family:Fraunces,Georgia,serif;
+  font-size:clamp(1.3rem, 4vw, 1.8rem);
+  font-weight:700;
+  color:#FDF7EC;
+  margin:0 0 8px;
+  text-shadow:0 2px 10px rgba(0,0,0,0.7);
+}
+.overlay-desc{
+  font-size:0.95rem;
+  line-height:1.45;
+  color:#CADCD7;
+  max-width:440px;
+  margin:0 0 16px;
+}
+.btn-retry{
+  background:rgba(255, 255, 255, 0.12);
+  border:1px solid rgba(255, 255, 255, 0.25);
+  color:#FDF7EC;
+  font-size:0.9rem;
+  font-weight:600;
+  padding:8px 20px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:all .2s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.btn-retry:hover{
+  background:rgba(243, 190, 72, 0.25);
+  border-color:#F3BE48;
+  color:#F3BE48;
+}
+
+/* Stream Meta */
+.stream-meta{
+  width:100%;
+  margin-top:2px;
+  margin-bottom:18px;
+}
+.meta-status-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:8px;
+  flex-wrap:wrap;
+}
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255, 255, 255, 0.08);
+  border:1px solid rgba(255, 255, 255, 0.15);
+  color:#EFE8D6;
+  font-size:0.8rem;
+  font-weight:700;
+  letter-spacing:0.5px;
+  padding:4px 12px;
+  border-radius:999px;
+}
+.status-pill.live{
+  background:rgba(235, 60, 60, 0.2);
+  border-color:rgba(235, 60, 60, 0.5);
+  color:#FF6B6B;
+}
+.status-pill.standby{
+  background:rgba(243, 190, 72, 0.18);
+  border-color:rgba(243, 190, 72, 0.45);
+  color:#F3BE48;
+}
+.dot-indicator{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  display:inline-block;
+}
+.dot-indicator.red{
+  background:#FF3B30;
+  box-shadow:0 0 8px #FF3B30;
+  animation:liveDot 1.4s infinite ease-in-out;
+}
+.dot-indicator.amber{
+  background:#F3BE48;
+  box-shadow:0 0 6px #F3BE48;
+}
+@keyframes liveDot{
+  0%, 100%{opacity:1; transform:scale(1);}
+  50%{opacity:0.4; transform:scale(0.8);}
+}
+.session-time{
+  font-size:0.9rem;
+  color:#A3BCB9;
+  font-weight:500;
+}
+.session-title{
+  font-family:Fraunces,Georgia,serif;
+  font-size:clamp(1.5rem, 4.8vw, 2.3rem);
+  font-weight:700;
+  line-height:1.2;
+  color:#FDF7EC;
+  margin:0 0 6px;
+  text-shadow:0 2px 10px rgba(0, 0, 0, 0.8);
+}
+.session-subtitle{
+  font-size:1rem;
+  color:#CADCD7;
+  margin:0;
+  text-shadow:0 1px 4px rgba(0,0,0,0.6);
+}
+
+/* Comments Card */
+.comments-card{
+  width:100%;
+  background:rgba(12, 28, 25, 0.52);
+  backdrop-filter:blur(24px) saturate(140%);
+  -webkit-backdrop-filter:blur(24px) saturate(140%);
+  border:1px solid rgba(255, 255, 255, 0.14);
+  border-top:1px solid rgba(255, 255, 255, 0.24);
+  border-radius:24px;
+  box-shadow:0 20px 48px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.comments-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 22px;
+  border-bottom:1px solid rgba(255, 255, 255, 0.08);
+}
+.comments-title{
+  font-family:Inter,system-ui,sans-serif;
+  font-size:1.15rem;
+  font-weight:700;
+  color:#FDF7EC;
+  margin:0;
+}
+.comments-count-badge{
+  font-size:0.85rem;
+  color:#A3BCB9;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:500;
+}
+.green-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#34C759;
+  box-shadow:0 0 6px #34C759;
+}
+
+/* Comments Feed */
+.comments-feed{
+  min-height:220px;
+  max-height:360px;
+  overflow-y:auto;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.empty-comments{
+  margin:auto;
+  text-align:center;
+  padding:32px 16px;
+}
+.empty-comments-title{
+  font-family:Fraunces,Georgia,serif;
+  font-size:1.3rem;
+  font-weight:700;
+  color:#FDF7EC;
+  margin:0 0 6px;
+}
+.empty-comments-desc{
+  font-size:0.95rem;
+  color:#A3BCB9;
+  margin:0;
+}
+
+/* Individual Comment Item */
+.comment-item{
+  display:flex;
+  gap:12px;
+  background:rgba(255, 255, 255, 0.04);
+  border:1px solid rgba(255, 255, 255, 0.07);
+  padding:12px 16px;
+  border-radius:16px;
+  animation:fadeIn 0.25s ease;
+}
+.avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg, rgba(243, 190, 72, 0.4), rgba(47, 143, 131, 0.4));
+  border:1px solid rgba(243, 190, 72, 0.5);
+  color:#FDF7EC;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:0.85rem;
+  flex-shrink:0;
+}
+.comment-body{
+  flex:1;
+  min-width:0;
+}
+.comment-author-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:3px;
+}
+.comment-author{
+  font-size:0.9rem;
+  font-weight:700;
+  color:#FDF7EC;
+}
+.comment-time{
+  font-size:0.75rem;
+  color:#8BA3A0;
+}
+.comment-text{
+  font-size:0.92rem;
+  line-height:1.45;
+  color:#EFE8D6;
+  margin:0;
+  word-break:break-word;
+}
+
+/* Comment Input Area */
+.comment-form-container{
+  padding:16px 20px;
+  border-top:1px solid rgba(255, 255, 255, 0.08);
+  background:rgba(7, 19, 17, 0.45);
+}
+.comment-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.name-input{
+  background:rgba(255, 255, 255, 0.06);
+  border:1px solid rgba(255, 255, 255, 0.12);
+  border-radius:12px;
+  padding:8px 14px;
+  color:#FDF7EC;
+  font-size:0.9rem;
+  font-family:Inter,system-ui,sans-serif;
+  outline:none;
+  transition:border-color .2s;
+}
+.name-input:focus{
+  border-color:#F3BE48;
+}
+.name-input::placeholder{
+  color:#7D9693;
+}
+.input-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.comment-input{
+  flex:1;
+  background:rgba(255, 255, 255, 0.06);
+  border:1px solid rgba(255, 255, 255, 0.12);
+  border-radius:14px;
+  padding:12px 16px;
+  color:#FDF7EC;
+  font-size:0.95rem;
+  font-family:Inter,system-ui,sans-serif;
+  outline:none;
+  transition:border-color .2s;
+}
+.comment-input:focus{
+  border-color:#F3BE48;
+}
+.comment-input::placeholder{
+  color:#7D9693;
+}
+.btn-send{
+  background:#F3BE48;
+  border:none;
+  color:#0B1915;
+  font-family:Inter,system-ui,sans-serif;
+  font-size:0.95rem;
+  font-weight:700;
+  padding:12px 22px;
+  border-radius:14px;
+  cursor:pointer;
+  transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(243, 190, 72, 0.3);
+}
+.btn-send:hover{
+  background:#FFCA58;
+  transform:scale(1.02);
+  box-shadow:0 6px 18px rgba(243, 190, 72, 0.45);
+}
+.btn-send:active{
+  transform:scale(0.98);
+}
+
+@media (prefers-reduced-motion:reduce){
+  a.join, .btn-send, .brand-logo, .view-container{transition:none; animation:none;}
+}
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f89a00e8-da88-4f39-93d3-cd7246fbd7a7"></script>
 </head>
-<body background="Green image.avif">
+<body background="green-bg.jpg">
 
-<main>
-  <h1>Dear Partner, Abuja Zone 1 Welcomes you</h1>
-  <p>Press the button below to enter the meeting.</p>
-  <a class="join" id="join" data-umami-event="join-meeting" href="https://vcpout-sf01-altnetro.internetmultimediaonline.org/vcp/a5f16fdd/playlist.m3u8" target="_blank" rel="noopener noreferrer">Join the meeting</a>
-</main>
+<!-- ==================== VIEW 1: WELCOME SCREEN ==================== -->
+<div id="welcome-view" class="view-container active">
+  <div class="welcome-logo-wrapper">
+    <img src="logo.svg" alt="Christ Embassy Abuja Zone 1" class="welcome-brand-logo" referrerPolicy="no-referrer">
+  </div>
+  <main class="welcome-card">
+    <h1>
+      <span class="partner-title">Dear Partner,</span>
+      <span class="welcome-subtitle">Abuja Zone 1 Welcomes you</span>
+    </h1>
+    <p class="welcome-desc">Press the button below to enter the meeting.</p>
+    <a class="join" id="join" data-umami-event="join-meeting" role="button">Join the meeting</a>
+  </main>
+</div>
+
+<!-- ==================== VIEW 2: STREAM & COMMENTS SCREEN ==================== -->
+<div id="stream-view" class="view-container">
+  <!-- Top Bar -->
+  <header class="stream-header">
+    <a class="stream-brand" id="brand-home" title="Back to welcome">
+      <img src="logo.svg" alt="Christ Embassy Abuja Zone 1" referrerPolicy="no-referrer">
+    </a>
+    <a class="sign-out-btn" id="sign-out-btn" role="button">Go back</a>
+  </header>
+
+  <!-- Stream Meta (Top, right below logo and go back) -->
+  <section class="stream-meta">
+    <h2 class="session-title" id="session-title">Partner's Prayer - Afternoon Session</h2>
+    <div class="meta-status-row">
+      <span class="status-pill standby" id="live-status-pill">
+        <span class="dot-indicator amber" id="status-dot"></span>
+        <span id="status-text">STANDBY</span>
+      </span>
+      <span class="session-time" id="session-time">Thursday 8 Oct, 2:11 pm</span>
+    </div>
+    <p class="session-subtitle">Join us to pray</p>
+  </section>
+
+  <!-- Video Player Section -->
+  <section class="player-card">
+    <video id="stream-video" class="stream-video" controls playsinline preload="auto"></video>
+    
+    <!-- Offline / Waiting for Broadcast Overlay -->
+    <div id="stream-offline-overlay" class="stream-overlay">
+      <div class="radar-pulse">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+        </svg>
+      </div>
+      <div class="overlay-badge" id="overlay-badge">Waiting For Broadcast</div>
+      <h2 class="overlay-title">The Stream Will Start Shortly</h2>
+      <p class="overlay-desc">
+        Welcome, Partner! The live meeting broadcast has not started yet. Stay right here — your stream will automatically begin as soon as the session goes live.
+      </p>
+      <button class="btn-retry" id="btn-check-stream">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+        </svg>
+        Check Stream Status
+      </button>
+    </div>
+  </section>
+
+  <!-- Comments Card -->
+  <section class="comments-card">
+    <div class="comments-header">
+      <h3 class="comments-title">Comments</h3>
+      <div class="comments-count-badge">
+        <span class="green-dot"></span>
+        <span id="comment-count-label">0 comments</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Comments Feed -->
+    <div class="comments-feed" id="comments-feed">
+      <div class="empty-comments" id="empty-comments-state">
+        <div class="empty-comments-title">Be the first to share</div>
+        <div class="empty-comments-desc">Say hello or post a prayer point.</div>
+      </div>
+    </div>
+
+    <!-- Input Form -->
+    <div class="comment-form-container">
+      <form class="comment-form" id="comment-form">
+        <input type="text" id="author-name" class="name-input" placeholder="Your name (e.g. Partner Grace)" maxlength="40">
+        <div class="input-row">
+          <input type="text" id="comment-text" class="comment-input" placeholder="Write a comment..." required maxlength="300" autocomplete="off">
+          <button type="submit" class="btn-send">Send</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  query, 
+  orderBy, 
+  limit, 
+  onSnapshot, 
+  serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  projectId: "xenodochial-bearing-qpthm",
+  appId: "1:701284248309:web:2a01d3298e9dd7608473bc",
+  apiKey: "AIzaSyCpykq_JXfwCcDKqlguKdRzruT1gxiZNnU",
+  authDomain: "xenodochial-bearing-qpthm.firebaseapp.com",
+  firestoreDatabaseId: "ai-studio-zone1meeting-6cb74ff5-2e9e-4513-875f-fa0333579a67",
+  storageBucket: "xenodochial-bearing-qpthm.firebasestorage.app",
+  messagingSenderId: "701284248309"
+};
+
+try {
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+
+  window.firebaseDb = db;
+  window.firebaseAddDoc = addDoc;
+  window.firebaseCollection = collection;
+  window.firebaseQuery = query;
+  window.firebaseOrderBy = orderBy;
+  window.firebaseLimit = limit;
+  window.firebaseOnSnapshot = onSnapshot;
+  window.firebaseServerTimestamp = serverTimestamp;
+
+  if (window.startRealtimeComments) {
+    window.startRealtimeComments();
+  }
+} catch (err) {
+  console.warn("Firebase initialization warning: ", err);
+}
+</script>
+
+<!-- ==================== SCRIPT LOGIC ==================== -->
+<script>
+const STREAM_URL = "https://vcpout-sf01-altnetro.internetmultimediaonline.org/vcp/a5f16fdd/playlist.m3u8";
+
+// View Elements
+const welcomeView = document.getElementById('welcome-view');
+const streamView = document.getElementById('stream-view');
+const joinBtn = document.getElementById('join');
+const signOutBtn = document.getElementById('sign-out-btn');
+const brandHome = document.getElementById('brand-home');
+
+// Video Elements
+const videoEl = document.getElementById('stream-video');
+const offlineOverlay = document.getElementById('stream-offline-overlay');
+const liveStatusPill = document.getElementById('live-status-pill');
+const statusDot = document.getElementById('status-dot');
+const statusText = document.getElementById('status-text');
+const btnCheckStream = document.getElementById('btn-check-stream');
+const sessionTimeEl = document.getElementById('session-time');
+const sessionTitleEl = document.getElementById('session-title');
+
+// Comments Elements
+const commentsFeed = document.getElementById('comments-feed');
+const emptyCommentsState = document.getElementById('empty-comments-state');
+const commentCountLabel = document.getElementById('comment-count-label');
+const commentForm = document.getElementById('comment-form');
+const authorNameInput = document.getElementById('author-name');
+const commentTextInput = document.getElementById('comment-text');
+
+let hls = null;
+let pollTimer = null;
+let isStreamLive = false;
+
+// Format dynamic current date/time with day and automatically set session title
+function updateSessionDetails() {
+  const now = new Date();
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const dayName = days[now.getDay()];
+  const dateNum = now.getDate();
+  const monthName = months[now.getMonth()];
+  const timeStr = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+  
+  // Dynamic timestamp with day: e.g. "Thursday 8 Oct, 2:11 pm"
+  if (sessionTimeEl) {
+    sessionTimeEl.textContent = `${dayName} ${dateNum} ${monthName}, ${timeStr}`;
+  }
+
+  // Automatically determine session based on current time
+  const hour = now.getHours();
+  let sessionPeriod = 'Morning';
+  if (hour >= 12 && hour < 17) {
+    sessionPeriod = 'Afternoon';
+  } else if (hour >= 17 && hour < 21) {
+    sessionPeriod = 'Evening';
+  } else if (hour >= 21 || hour < 5) {
+    sessionPeriod = 'Night';
+  } else {
+    sessionPeriod = 'Morning';
+  }
+
+  // Automatically state what session it is
+  if (sessionTitleEl) {
+    sessionTitleEl.textContent = `Partner's Prayer - ${sessionPeriod} Session`;
+  }
+}
+
+updateSessionDetails();
+setInterval(updateSessionDetails, 30000);
+
+// Routing / View switcher
+function showView(viewName) {
+  if (viewName === 'stream') {
+    welcomeView.classList.remove('active');
+    streamView.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    initPlayer();
+    loadComments();
+    startStreamPolling();
+  } else {
+    streamView.classList.remove('active');
+    welcomeView.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    stopPlayer();
+  }
+}
+
+function handleHashChange() {
+  const hash = window.location.hash;
+  if (hash === '#stream' || hash === '#watch') {
+    showView('stream');
+  } else {
+    showView('welcome');
+  }
+}
+
+window.addEventListener('hashchange', handleHashChange);
+
+joinBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.location.hash = '#stream';
+});
+
+signOutBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.location.hash = '#welcome';
+});
+
+brandHome.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.location.hash = '#welcome';
+});
+
+// Stream Player Management
+function setStreamLiveUI(live) {
+  isStreamLive = live;
+  updateSessionDetails();
+  if (live) {
+    offlineOverlay.style.display = 'none';
+    liveStatusPill.className = 'status-pill live';
+    statusDot.className = 'dot-indicator red';
+    statusText.textContent = 'LIVE';
+  } else {
+    offlineOverlay.style.display = 'flex';
+    liveStatusPill.className = 'status-pill standby';
+    statusDot.className = 'dot-indicator amber';
+    statusText.textContent = 'STANDBY';
+  }
+}
+
+function initPlayer() {
+  if (Hls.isSupported()) {
+    if (hls) hls.destroy();
+    hls = new Hls({
+      manifestLoadingMaxRetry: 1,
+      levelLoadingMaxRetry: 1,
+      manifestLoadingRetryDelay: 1000,
+      backBufferLength: 600, // Retains up to 10 minutes of played stream in memory for rewinding
+      liveBackBufferLength: 600,
+      enableWorker: true
+    });
+    hls.loadSource(STREAM_URL);
+    hls.attachMedia(videoEl);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      setStreamLiveUI(true);
+      videoEl.play().catch(() => {});
+    });
+
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      if (data.fatal || (data.response && data.response.code === 404)) {
+        setStreamLiveUI(false);
+      }
+    });
+  } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+    videoEl.src = STREAM_URL;
+    videoEl.addEventListener('loadedmetadata', () => {
+      setStreamLiveUI(true);
+      videoEl.play().catch(() => {});
+    });
+    videoEl.addEventListener('error', () => {
+      setStreamLiveUI(false);
+    });
+  } else {
+    setStreamLiveUI(false);
+  }
+}
+
+function stopPlayer() {
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+  videoEl.pause();
+  videoEl.removeAttribute('src');
+  videoEl.load();
+  if (pollTimer) {
+    clearInterval(pollTimer);
+    pollTimer = null;
+  }
+}
+
+// Rewind and Fast-Forward keyboard shortcuts (ArrowLeft / ArrowRight)
+window.addEventListener('keydown', (e) => {
+  if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+  if (!videoEl || !isStreamLive) return;
+  if (e.key === 'ArrowLeft') {
+    videoEl.currentTime = Math.max(0, videoEl.currentTime - 10);
+  } else if (e.key === 'ArrowRight') {
+    videoEl.currentTime = videoEl.currentTime + 10;
+  }
+});
+
+function checkStreamHealth() {
+  btnCheckStream.disabled = true;
+  btnCheckStream.textContent = 'Checking...';
+  
+  fetch(STREAM_URL, { method: 'HEAD', mode: 'no-cors' })
+    .then(() => {
+      initPlayer();
+      setTimeout(() => {
+        btnCheckStream.disabled = false;
+        btnCheckStream.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg> Check Stream Status`;
+      }, 1500);
+    })
+    .catch(() => {
+      setStreamLiveUI(false);
+      btnCheckStream.disabled = false;
+      btnCheckStream.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+        </svg> Check Stream Status`;
+    });
+}
+
+btnCheckStream.addEventListener('click', checkStreamHealth);
+
+function startStreamPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(() => {
+    if (!isStreamLive) {
+      initPlayer();
+    }
+  }, 18000);
+}
+
+// Comments Feed Management
+let commentsList = [];
+
+// Saved name in localStorage
+const savedName = localStorage.getItem('ce_partner_name');
+if (savedName) {
+  authorNameInput.value = savedName;
+}
+
+function renderComments() {
+  if (!commentsList || commentsList.length === 0) {
+    emptyCommentsState.style.display = 'block';
+    commentCountLabel.textContent = '0 comments';
+    return;
+  }
+  emptyCommentsState.style.display = 'none';
+  commentCountLabel.textContent = `${commentsList.length} comment${commentsList.length === 1 ? '' : 's'}`;
+
+  // Clear existing rendered items except empty state
+  const items = commentsFeed.querySelectorAll('.comment-item');
+  items.forEach(el => el.remove());
+
+  commentsList.forEach(c => {
+    const item = document.createElement('div');
+    item.className = 'comment-item';
+    
+    // First letter avatar
+    const initial = (c.name || 'P').trim().charAt(0).toUpperCase();
+
+    item.innerHTML = `
+      <div class="avatar">${initial}</div>
+      <div class="comment-body">
+        <div class="comment-author-row">
+          <span class="comment-author">${escapeHtml(c.name || 'Partner')}</span>
+          <span class="comment-time">${escapeHtml(c.timestamp || 'Just now')}</span>
+        </div>
+        <p class="comment-text">${escapeHtml(c.text)}</p>
+      </div>
+    `;
+    commentsFeed.appendChild(item);
+  });
+
+  commentsFeed.scrollTop = commentsFeed.scrollHeight;
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, (m) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[m]);
+}
+
+let unsubscribeComments = null;
+
+window.startRealtimeComments = function() {
+  if (!window.firebaseDb || !window.firebaseOnSnapshot) return;
+  if (unsubscribeComments) return;
+
+  try {
+    const q = window.firebaseQuery(
+      window.firebaseCollection(window.firebaseDb, 'comments'),
+      window.firebaseOrderBy('createdAt', 'asc'),
+      window.firebaseLimit(250)
+    );
+
+    unsubscribeComments = window.firebaseOnSnapshot(q, (snapshot) => {
+      const items = [];
+      snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        let displayTime = d.timestamp;
+        if (!displayTime && d.createdAt) {
+          try {
+            const date = d.createdAt.toDate ? d.createdAt.toDate() : new Date(d.createdAt);
+            displayTime = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+          } catch(e) {
+            displayTime = 'Just now';
+          }
+        }
+        items.push({
+          id: docSnap.id,
+          name: d.name || 'Partner',
+          text: d.text || '',
+          timestamp: displayTime || 'Just now'
+        });
+      });
+      commentsList = items;
+      renderComments();
+      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
+    }, (error) => {
+      console.warn("Firestore listener notice: ", error);
+    });
+  } catch(e) {
+    console.warn("Realtime listener error: ", e);
+  }
+};
+
+function loadComments() {
+  if (window.firebaseDb && window.startRealtimeComments) {
+    window.startRealtimeComments();
+  }
+  fetch('/api/comments')
+    .then(res => res.json())
+    .then(data => {
+      if (!commentsList || commentsList.length === 0) {
+        commentsList = Array.isArray(data) ? data : [];
+        renderComments();
+      }
+    })
+    .catch(() => {
+      const cached = localStorage.getItem('ce_cached_comments');
+      if (cached && (!commentsList || commentsList.length === 0)) {
+        try { commentsList = JSON.parse(cached); renderComments(); } catch(e){}
+      }
+    });
+}
+
+commentForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = commentTextInput.value.trim();
+  if (!text) return;
+  const name = authorNameInput.value.trim() || 'Partner';
+
+  localStorage.setItem('ce_partner_name', name);
+  commentTextInput.value = '';
+
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+
+  if (window.firebaseDb && window.firebaseAddDoc) {
+    window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, 'comments'), {
+      name,
+      text,
+      createdAt: window.firebaseServerTimestamp(),
+      timestamp: timeStr
+    }).catch((err) => {
+      console.warn("Firestore add error, falling back to REST: ", err);
+      fetch('/api/comments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, text })
+      });
+    });
+  } else {
+    const tempComment = {
+      id: Date.now(),
+      name,
+      text,
+      timestamp: timeStr
+    };
+    commentsList.push(tempComment);
+    renderComments();
+
+    fetch('/api/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, text })
+    })
+    .then(res => res.json())
+    .then(() => {
+      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
+    })
+    .catch(() => {
+      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
+    });
+  }
+});
+
+// Initial boot check
+handleHashChange();
+</script>
 </body>
 </html>
+

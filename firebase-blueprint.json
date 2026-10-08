@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "Comment": {
+      "title": "Comment",
+      "description": "A live stream comment or prayer point posted by a partner",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the partner posting the comment",
+          "maxLength": 40
+        },
+        "text": {
+          "type": "string",
+          "description": "Comment or prayer point message",
+          "maxLength": 300
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Display timestamp for the comment",
+          "maxLength": 20
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Server timestamp of comment submission"
+        }
+      },
+      "required": ["name", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/comments/{commentId}": {
+      "schema": {
+        "$ref": "#/entities/Comment"
+      },
+      "description": "Real-time live meeting stream comments collection"
+    }
+  }
+}
