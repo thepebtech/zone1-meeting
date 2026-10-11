@@ -354,18 +354,79 @@ a.join:focus-visible{outline:4px solid #F3BE48; outline-offset:4px;}
   font-size:0.8rem;
   font-weight:700;
   letter-spacing:0.5px;
-  padding:4px 12px;
+  padding:5px 14px;
   border-radius:999px;
+  cursor:pointer;
+  transition:all .2s ease;
+  font-family:Inter,system-ui,sans-serif;
+  user-select:none;
+}
+.status-pill:hover{
+  transform:scale(1.05);
+  background:rgba(255, 255, 255, 0.14);
 }
 .status-pill.live{
   background:rgba(235, 60, 60, 0.2);
   border-color:rgba(235, 60, 60, 0.5);
   color:#FF6B6B;
 }
+.status-pill.live:hover{
+  box-shadow:0 0 16px rgba(255, 59, 48, 0.5);
+}
 .status-pill.standby{
   background:rgba(243, 190, 72, 0.18);
   border-color:rgba(243, 190, 72, 0.45);
   color:#F3BE48;
+}
+.status-pill.standby:hover{
+  box-shadow:0 0 14px rgba(243, 190, 72, 0.4);
+}
+.like-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255, 255, 255, 0.08);
+  border:1px solid rgba(255, 255, 255, 0.16);
+  color:#FDF7EC;
+  font-size:0.82rem;
+  font-weight:600;
+  padding:5px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:all .2s ease;
+  font-family:Inter,system-ui,sans-serif;
+}
+.like-btn svg{
+  fill:#F3BE48;
+  transition:transform .2s ease;
+}
+.like-btn:hover{
+  background:rgba(243, 190, 72, 0.2);
+  border-color:rgba(243, 190, 72, 0.5);
+  color:#F3BE48;
+  transform:scale(1.04);
+}
+.like-btn:hover svg{
+  transform:scale(1.2);
+}
+.like-btn.liked{
+  background:rgba(243, 190, 72, 0.26);
+  border-color:#F3BE48;
+  color:#F3BE48;
+}
+@keyframes floatReaction{
+  0%{transform:translateY(0) scale(0.8); opacity:1;}
+  50%{transform:translateY(-50px) translateX(12px) scale(1.15); opacity:0.9;}
+  100%{transform:translateY(-110px) translateX(-8px) scale(1); opacity:0;}
+}
+.floating-reaction{
+  position:absolute;
+  bottom:18px;
+  right:20px;
+  font-size:24px;
+  pointer-events:none;
+  animation:floatReaction 1.5s ease-out forwards;
+  z-index:25;
 }
 .dot-indicator{
   width:8px;
@@ -641,10 +702,10 @@ a.join:focus-visible{outline:4px solid #F3BE48; outline-offset:4px;}
   <section class="stream-meta">
     <h2 class="session-title" id="session-title">Partner's Prayer - Afternoon Session</h2>
     <div class="meta-status-row">
-      <span class="status-pill standby" id="live-status-pill">
+      <button class="status-pill standby" id="live-status-pill" title="Click to watch the live stream" aria-label="Watch live stream">
         <span class="dot-indicator amber" id="status-dot"></span>
         <span id="status-text">STANDBY</span>
-      </span>
+      </button>
       <span class="session-time" id="session-time">Thursday 8 Oct, 2:11 pm</span>
     </div>
   </section>
@@ -862,6 +923,32 @@ brandHome.addEventListener('click', (e) => {
   window.location.hash = '#welcome';
 });
 
+// Click LIVE icon to automatically take you directly to the actual stream video
+liveStatusPill.addEventListener('click', (e) => {
+  e.preventDefault();
+  const playerCard = document.querySelector('.player-card');
+  if (playerCard) {
+    playerCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    playerCard.style.outline = '2px solid rgba(243, 190, 72, 0.6)';
+    playerCard.style.boxShadow = '0 0 28px rgba(243, 190, 72, 0.4), 0 20px 48px rgba(0, 0, 0, 0.7)';
+    setTimeout(() => {
+      playerCard.style.outline = 'none';
+      playerCard.style.boxShadow = '0 20px 48px rgba(0, 0, 0, 0.7)';
+    }, 1200);
+  }
+
+  if (videoEl) {
+    if (isStreamLive && videoEl.seekable && videoEl.seekable.length > 0) {
+      videoEl.currentTime = videoEl.seekable.end(videoEl.seekable.length - 1);
+    }
+    videoEl.play().catch(() => {});
+  }
+
+  if (!isStreamLive && typeof checkStreamHealth === 'function') {
+    checkStreamHealth();
+  }
+});
+
 // Stream Player Management
 function setStreamLiveUI(live) {
   isStreamLive = live;
@@ -946,36 +1033,31 @@ function checkStreamHealth() {
   btnCheckStream.disabled = true;
   btnCheckStream.textContent = 'Checking...';
   
-  fetch(STREAM_URL, { method: 'HEAD', mode: 'no-cors' })
-    .then(() => {
-      initPlayer();
-      setTimeout(() => {
-        btnCheckStream.disabled = false;
-        btnCheckStream.innerHTML = `
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-          </svg> Check Stream Status`;
-      }, 1500);
-    })
-    .catch(() => {
-      setStreamLiveUI(false);
-      btnCheckStream.disabled = false;
-      btnCheckStream.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-        </svg> Check Stream Status`;
-    });
+  initPlayer();
+
+  setTimeout(() => {
+    btnCheckStream.disabled = false;
+    btnCheckStream.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+      </svg> Check Stream Status`;
+  }, 2000);
 }
 
 btnCheckStream.addEventListener('click', checkStreamHealth);
 
 function startStreamPolling() {
   if (pollTimer) clearInterval(pollTimer);
+  let pollAttempts = 0;
   pollTimer = setInterval(() => {
-    if (!isStreamLive) {
+    if (!isStreamLive && pollAttempts < 12) {
+      pollAttempts++;
       initPlayer();
+    } else if (pollAttempts >= 12 && pollTimer) {
+      clearInterval(pollTimer);
+      pollTimer = null;
     }
-  }, 18000);
+  }, 60000);
 }
 
 // Comments Feed Management
@@ -1080,21 +1162,15 @@ window.startRealtimeComments = function() {
 function loadComments() {
   if (window.firebaseDb && window.startRealtimeComments) {
     window.startRealtimeComments();
+    return;
   }
-  fetch('/api/comments')
-    .then(res => res.json())
-    .then(data => {
-      if (!commentsList || commentsList.length === 0) {
-        commentsList = Array.isArray(data) ? data : [];
-        renderComments();
-      }
-    })
-    .catch(() => {
-      const cached = localStorage.getItem('ce_cached_comments');
-      if (cached && (!commentsList || commentsList.length === 0)) {
-        try { commentsList = JSON.parse(cached); renderComments(); } catch(e){}
-      }
-    });
+  const cached = localStorage.getItem('ce_cached_comments');
+  if (cached && (!commentsList || commentsList.length === 0)) {
+    try {
+      commentsList = JSON.parse(cached);
+      renderComments();
+    } catch(e) {}
+  }
 }
 
 commentForm.addEventListener('submit', (e) => {
@@ -1116,12 +1192,16 @@ commentForm.addEventListener('submit', (e) => {
       createdAt: window.firebaseServerTimestamp(),
       timestamp: timeStr
     }).catch((err) => {
-      console.warn("Firestore add error, falling back to REST: ", err);
-      fetch('/api/comments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, text })
-      });
+      console.warn("Firestore save fallback: ", err);
+      const tempComment = {
+        id: Date.now(),
+        name,
+        text,
+        timestamp: timeStr
+      };
+      commentsList.push(tempComment);
+      renderComments();
+      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
     });
   } else {
     const tempComment = {
@@ -1132,19 +1212,7 @@ commentForm.addEventListener('submit', (e) => {
     };
     commentsList.push(tempComment);
     renderComments();
-
-    fetch('/api/comments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, text })
-    })
-    .then(res => res.json())
-    .then(() => {
-      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
-    })
-    .catch(() => {
-      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
-    });
+    localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
   }
 });
 
