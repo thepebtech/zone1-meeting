@@ -680,8 +680,7 @@ a.join:focus-visible{outline:4px solid #F3BE48; outline-offset:4px;}
   </div>
   <main class="welcome-card">
     <h1>
-      <span class="partner-title">Dear Partner,</span>
-      <span class="welcome-subtitle">Abuja Zone 1 Welcomes you</span>
+      <span class="partner-title">Private meeting</span>
     </h1>
     <p class="welcome-desc">Press the button below to enter the meeting.</p>
     <a class="join" id="join" data-umami-event="join-meeting" role="button">Join the meeting</a>
@@ -700,7 +699,7 @@ a.join:focus-visible{outline:4px solid #F3BE48; outline-offset:4px;}
 
   <!-- Stream Meta (Top, right below logo and go back) -->
   <section class="stream-meta">
-    <h2 class="session-title" id="session-title">Partner's Prayer - Afternoon Session</h2>
+    <h2 class="session-title" id="session-title">Morning meeting</h2>
     <div class="meta-status-row">
       <button class="status-pill standby" id="live-status-pill" title="Click to watch the live stream" aria-label="Watch live stream">
         <span class="dot-indicator amber" id="status-dot"></span>
@@ -773,6 +772,7 @@ import {
   collection, 
   addDoc, 
   query, 
+  where,
   orderBy, 
   limit, 
   onSnapshot, 
@@ -797,6 +797,7 @@ try {
   window.firebaseAddDoc = addDoc;
   window.firebaseCollection = collection;
   window.firebaseQuery = query;
+  window.firebaseWhere = where;
   window.firebaseOrderBy = orderBy;
   window.firebaseLimit = limit;
   window.firebaseOnSnapshot = onSnapshot;
@@ -858,22 +859,20 @@ function updateSessionDetails() {
     sessionTimeEl.textContent = `${dayName} ${dateNum} ${monthName}, ${timeStr}`;
   }
 
-  // Automatically determine session based on current time
+  // Automatically determine meeting label based on current time
   const hour = now.getHours();
-  let sessionPeriod = 'Morning';
+  let meetingName = 'Morning meeting';
   if (hour >= 12 && hour < 17) {
-    sessionPeriod = 'Afternoon';
-  } else if (hour >= 17 && hour < 21) {
-    sessionPeriod = 'Evening';
-  } else if (hour >= 21 || hour < 5) {
-    sessionPeriod = 'Night';
+    meetingName = 'Afternoon meeting';
+  } else if (hour >= 17 || hour < 5) {
+    meetingName = 'Night meeting';
   } else {
-    sessionPeriod = 'Morning';
+    meetingName = 'Morning meeting';
   }
 
-  // Automatically state what session it is
+  // Automatically update the title
   if (sessionTitleEl) {
-    sessionTitleEl.textContent = `Partner's Prayer - ${sessionPeriod} Session`;
+    sessionTitleEl.textContent = meetingName;
   }
 }
 
@@ -1115,16 +1114,44 @@ function escapeHtml(str) {
   })[m]);
 }
 
+function getCurrentSessionId() {
+  const now = new Date();
+  const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
+  const hour = now.getHours();
+  let meetingKey = 'morning-meeting';
+  if (hour >= 12 && hour < 17) {
+    meetingKey = 'afternoon-meeting';
+  } else if (hour >= 17 || hour < 5) {
+    meetingKey = 'night-meeting';
+  } else {
+    meetingKey = 'morning-meeting';
+  }
+  return `${dateStr}-${meetingKey}`;
+}
+
 let unsubscribeComments = null;
+let activeSessionId = null;
 
 window.startRealtimeComments = function() {
-  if (!window.firebaseDb || !window.firebaseOnSnapshot) return;
-  if (unsubscribeComments) return;
+  if (!window.firebaseDb || !window.firebaseOnSnapshot || !window.firebaseWhere) return;
+  
+  const currentSessionId = getCurrentSessionId();
+  if (activeSessionId === currentSessionId && unsubscribeComments) return;
+
+  // If session changed, unsubscribe previous listener
+  if (unsubscribeComments) {
+    unsubscribeComments();
+    unsubscribeComments = null;
+  }
+
+  activeSessionId = currentSessionId;
+  commentsList = [];
+  renderComments();
 
   try {
     const q = window.firebaseQuery(
       window.firebaseCollection(window.firebaseDb, 'comments'),
-      window.firebaseOrderBy('createdAt', 'asc'),
+      window.firebaseWhere('sessionId', '==', currentSessionId),
       window.firebaseLimit(250)
     );
 
@@ -1145,12 +1172,20 @@ window.startRealtimeComments = function() {
           id: docSnap.id,
           name: d.name || 'Partner',
           text: d.text || '',
+          sessionId: d.sessionId,
+          createdAt: d.createdAt,
           timestamp: displayTime || 'Just now'
         });
       });
+      // Sort client-side by createdAt ascending for perfect chronological order without requiring composite index
+      items.sort((a, b) => {
+        const ta = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const tb = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return ta - tb;
+      });
       commentsList = items;
       renderComments();
-      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
+      localStorage.setItem(`ce_cached_comments_${currentSessionId}`, JSON.stringify(commentsList));
     }, (error) => {
       console.warn("Firestore listener notice: ", error);
     });
@@ -1164,8 +1199,9 @@ function loadComments() {
     window.startRealtimeComments();
     return;
   }
-  const cached = localStorage.getItem('ce_cached_comments');
-  if (cached && (!commentsList || commentsList.length === 0)) {
+  const currentSessionId = getCurrentSessionId();
+  const cached = localStorage.getItem(`ce_cached_comments_${currentSessionId}`);
+  if (cached) {
     try {
       commentsList = JSON.parse(cached);
       renderComments();
@@ -1184,11 +1220,13 @@ commentForm.addEventListener('submit', (e) => {
 
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+  const currentSessionId = getCurrentSessionId();
 
   if (window.firebaseDb && window.firebaseAddDoc) {
     window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, 'comments'), {
       name,
       text,
+      sessionId: currentSessionId,
       createdAt: window.firebaseServerTimestamp(),
       timestamp: timeStr
     }).catch((err) => {
@@ -1197,22 +1235,24 @@ commentForm.addEventListener('submit', (e) => {
         id: Date.now(),
         name,
         text,
+        sessionId: currentSessionId,
         timestamp: timeStr
       };
       commentsList.push(tempComment);
       renderComments();
-      localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
+      localStorage.setItem(`ce_cached_comments_${currentSessionId}`, JSON.stringify(commentsList));
     });
   } else {
     const tempComment = {
       id: Date.now(),
       name,
       text,
+      sessionId: currentSessionId,
       timestamp: timeStr
     };
     commentsList.push(tempComment);
     renderComments();
-    localStorage.setItem('ce_cached_comments', JSON.stringify(commentsList));
+    localStorage.setItem(`ce_cached_comments_${currentSessionId}`, JSON.stringify(commentsList));
   }
 });
 

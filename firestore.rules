@@ -16,15 +16,16 @@ service cloud.firestore {
     }
 
     function isValidComment(data) {
-      return data.keys().hasAll(['name', 'text', 'createdAt'])
-        && data.keys().hasOnly(['name', 'text', 'createdAt', 'timestamp'])
+      return data.keys().hasAll(['name', 'text', 'sessionId', 'createdAt'])
+        && data.keys().hasOnly(['name', 'text', 'sessionId', 'createdAt', 'timestamp'])
         && data.name is string && data.name.size() > 0 && data.name.size() <= 40
         && data.text is string && data.text.size() > 0 && data.text.size() <= 300
+        && data.sessionId is string && data.sessionId.size() > 0 && data.sessionId.size() <= 64 && data.sessionId.matches('^[a-zA-Z0-9_\\-]+$')
         && data.createdAt is timestamp && incoming().createdAt == request.time
         && (!('timestamp' in data) || (data.timestamp is string && data.timestamp.size() <= 20));
     }
 
-    // Public real-time comments for live stream prayer points & greetings
+    // Public real-time session-attributed comments for live stream prayer points & greetings
     match /comments/{commentId} {
       allow read: if true;
       allow create: if isValidId(commentId) && isValidComment(incoming());

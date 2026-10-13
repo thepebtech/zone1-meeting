@@ -2,10 +2,14 @@
   "name": "zone1-meeting",
   "version": "1.0.0",
   "type": "module",
+  "bin": {
+    "next": "./build.js"
+  },
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "mkdir -p dist public && cp index.html logo.svg green-bg.jpg firebase-applet-config.json dist/ && cp index.html logo.svg green-bg.jpg firebase-applet-config.json public/"
+    "build": "node ./build.js",
+    "next": "node ./build.js"
   },
   "dependencies": {
     "express": "^4.19.2"
